@@ -36,9 +36,26 @@ def get_action(tree, state):
             node = node.right
 
     return node.decision_function(state)
+def print_tree(node, indent=0):
+    print('  ' * indent + str(node.decision_function.__code__.co_consts))
+    if node.left:
+        print('  ' * (indent + 1) + 'Y:')
+        print_tree(node.left, indent + 2)
+    if node.right:
+        print('  ' * (indent + 1) + 'N:')
+        print_tree(node.right, indent + 2)
+
+#计算树的深度
+def tree_depth(node):
+    if node==None:
+        return 0
+    else:
+        left_depth=tree_depth(node.left)
+        right_depth=tree_depth(node.right)
+        return max(left_depth,right_depth)+1
 
 def test():
-    state = {'有魔法值': False, '敌人在范围内': False, '技能攻击高': False, '敌人在上侧': False, '敌人在左侧': False, '敌人在右侧': False}
+    state = {'有魔法值': False, '敌人在技能攻击范围内': False,'敌人在普通攻击范围内':True, '技能攻击高': False, '敌人在上侧': False, '敌人在左侧': False, '敌人在右侧': False}
     tree = create_tree()
     print(get_action(tree, state))
 
@@ -49,4 +66,5 @@ def make_decision(state):
 
 
 if __name__ == '__main__':
-    test()
+    print_tree(create_tree())
+    print(tree_depth(create_tree()))
