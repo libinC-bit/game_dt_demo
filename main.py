@@ -12,27 +12,41 @@
 
 
 
+###单个棋子的行动决机制
+#输入
+#1、当前的环境信息
+#2、当前的行动决策树
+#输出
+#1、当前的行动决策
+
+###决策树生成
+# 输入行动列表
+# 输入环境检测信息列表
+# 输入行动规则列表
+# 输出决策树
+
+#生成行动序列
+#输入 棋子A ，棋子B
+#输出 棋子A，棋子B的行动序列，形成一个对战序列
+#打印表演对战
+
+
+
 class Node:
     def __init__(self, decision_function, left=None, right=None):
         self.decision_function = decision_function
         self.left = left
         self.right = right
-#给我一个函数创建一个最优二叉树
 def create_tree():
     node7 = Node(lambda state: '释放W')
     node9 = Node(lambda state: '释放Y')
     node8 = Node(lambda state: state['W可释放'],left=node7,right=node9)
-
     # 6、如果敌人A在攻击范围内，可以攻击敌人A，但是没有魔法，就普通攻击
     node6 = Node(lambda state: '普通攻击')
-
-
     # 4、如果敌人A在攻击范围内，可以攻击敌人A，并且有魔法值可以释放技能，优先释放技能W
     node4 = Node(lambda state: state['有魔法值'], node8,node6)
-
     # 3、如果敌人A在攻击范围外，且其他敌人也在攻击范围外，优先向A移动
     node3 = Node(lambda state:'向A移动')
-
     # 1、如果敌人A在攻击范围内，优先攻击敌人A
     root = Node(lambda state: state['A在攻击范围内'], left=node4, right=node3)
 
@@ -45,7 +59,7 @@ def get_action(tree, state):
             node = node.left
         else:
             node = node.right
-        print('寻找到',node.decision_function)
+        #print('寻找到',node.decision_function)
     return node.decision_function(state)
 
 def print_tree(node, indent=0):
@@ -56,9 +70,12 @@ def print_tree(node, indent=0):
     if node.right:
         print('  ' * (indent + 1) + 'N:')
         print_tree(node.right, indent + 2)
+
+
+
 if __name__ == '__main__':
     tree = create_tree()
     state = {'A在攻击范围内': True, '有魔法值': False, 'W可释放': False}
     action = get_action(tree, state)
-    print(action)
-    #print_tree(tree)
+    #print(action)
+    print_tree(tree)
