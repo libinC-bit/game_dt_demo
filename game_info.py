@@ -25,6 +25,7 @@ class hero:
         self.hate_dict={}
         self.x=''
         self.y=''
+        self.deaded=False # 20240708 RL训练的时候每一轮游戏结束后，需要重置英雄的状态，而不是新创建一个英雄对象，所以需要一个标记位
     #定义行动列表
     def action_init(self):
         for  i in range(1,self.ap+1):
@@ -97,7 +98,6 @@ class state:
 
     #获取当前等state信息
     def get_current_state(self):
-
         return self.board,self.hate_dict,self.atk_distance
 
 
@@ -123,7 +123,22 @@ class game:
         #self.hero_list.append(hero_Z)
         self.state=state()
 
+    def reset(self):
+        for i in range(self.state.board_h):
+            for j in range(self.state.board_w):
+                self.state.board[i][j]=0
+        self.state.hate_dict={}
+        self.state.atk_distance={}
+        for hero in self.hero_list:
+            hero.hp=100
+            hero.mp=2
+            hero.x=''
+            hero.y=''
+            hero.deaded=False
+            hero.hate_dict={}
+
     def start(self):
+
         for hero in self.hero_list:
             hero.action_init()
             for enemy in self.hero_list:
@@ -144,7 +159,7 @@ class game:
             print('英雄名称',hero.name,'出场位置',[hero.x,hero.y])
 
     def move_limit_filter(self,hero):
-        #print('get_aciton',hero.get_aciton())
+
         action_list=copy(hero.get_aciton())
         #time.sleep(4)
         #print('清理前',len(action_list))
@@ -200,11 +215,11 @@ class game:
             if hero.hp<=0:
                 print(hero.name,'死亡')
                 self.state.board[hero.x][hero.y]=0
-                self.hero_list.remove(hero)
+                hero.deaded=True
     def check_game_over(self):
         #检查是否有一方全部死亡
-        self.team1_hero_list=[hero for hero in self.hero_list if hero.team==self.team1]
-        self.team2_hero_list=[hero for hero in self.hero_list if hero.team==self.team2]
+        self.team1_hero_list=[hero for hero in self.hero_list if hero.team==self.team1 and hero.deaded==False]
+        self.team2_hero_list=[hero for hero in self.hero_list if hero.team==self.team2 and hero.deaded==False]
         if len(self.team1_hero_list)==0:
             print('游戏结束，',self.team2,'获胜')
             return (True,self.team2)
@@ -250,7 +265,7 @@ class game:
                     hero.skill_attack(enemy)
         self.check_hero_dead()
     def get_current_herolist(self,teamid):
-        return [hero for hero in self.hero_list if hero.team==teamid]
+        return [hero for hero in self.hero_list if hero.team==teamid and hero.deaded==False]
 
 if __name__ == '__main__':
     game=game()
