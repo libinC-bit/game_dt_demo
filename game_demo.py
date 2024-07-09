@@ -1,7 +1,6 @@
 
 import random
 import time
-
 import game_info
 import agent
 
