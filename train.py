@@ -51,3 +51,71 @@ if __name__ == '__main__':
 
     print('小刘胜利次数',res.count('小刘'))
     print('强爷胜利次数',res.count('强爷'))
+
+
+
+
+
+#定义一个接口
+{
+state: {
+    [[
+    [{HP:300,type:5..},{HP:300,type:5..},{{HP:300,type:5..}],
+    [{HP:300,type:5..},{HP:300,type:5..},{{HP:300,type:5..}],
+    ],
+        [
+    [{HP:300,type:5..},{HP:300,type:5..},{{HP:300,type:5..}],
+    [{HP:300,type:5..},{HP:300,type:5..},{{HP:300,type:5..}],
+    ],
+[
+    [{HP:300,type:5..},{HP:300,type:5..},{{HP:300,type:5..}],
+    [{HP:300,type:5..},{HP:300,type:5..},{{HP:300,type:5..}],
+    ]]
+    },
+
+hero_list: {
+    [
+    {
+    name: '小刘',
+    team: 1,
+    x: 1,
+    y: 1,
+    z: 3,
+    hp: 100,
+    ap: 100,
+    atk: 10,
+    distance: 5,
+    defense: 0,
+
+    skill:{'atk':20,'distance':5,'limit':2,'current':0},
+    deaded: False
+    },
+    {
+    name: '小刘',
+    team: 1,
+    x: 1,
+    y: 1,
+        z: 3,
+    hp: 100,
+    mp: 100,
+    atk: 10,
+    skill:{'atk':20,'distance':5,'limit':2,'current':0},
+    deaded: False
+    },
+    {
+    name: '小刘',
+    team: 2,
+    x: 1,
+    y: 1,
+        z: 3,
+    hp: 100,
+    mp: 100,
+    atk: 10,
+    skill:{'atk':20,'distance':5,'limit':2,'current':0},
+    deaded: False
+    }
+    ]
+    }
+
+}
+name,id,teamid,hp,ap,atk,atk_distance,defense,运气,灵巧,move_distance,move_distance_y,skill{}
